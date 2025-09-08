@@ -9,5 +9,11 @@
   "noApartments": "Inga lägenheter finns för detta bolag.",
   "leaseEnd": "Slutdatum:",
   "renovated": " (Renoverad)",
-  "expiringLabel": "Kontraktet löper ut inom 3 månader!"
+  "expiringLabel": "Kontraktet löper ut inom 3 månader!",
+  "byggAbTitle": "Bygg AB",
+  "byggAbText": "Detta är en exempeltext för Bygg AB.",
+  "backButton": "Tillbaka",
+  "choosePortal": "Välj portal",
+  "fastighetPortalBtn": "Fastighet Portalen",
+  "byggAbBtn": "Bygg AB"
 }

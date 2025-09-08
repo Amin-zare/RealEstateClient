@@ -3,12 +3,11 @@ import type { Apartment } from '../types/Apartment';
 export async function fetchApartments(
   companyId: number,
   expiring: boolean,
-  signal?: AbortSignal
 ): Promise<Apartment[]> {
   const token = process.env.REACT_APP_AUTHORIZATION_TOKEN!;
-    const baseUrl = process.env.REACT_APP_COMPANIES_URL;
-    if (!baseUrl) throw new Error('REACT_APP_COMPANIES_URL saknas i miljövariabler.');
-    if (!token) throw new Error('REACT_APP_AUTHORIZATION_TOKEN saknas i miljövariabler.');
+  const baseUrl = process.env.REACT_APP_COMPANIES_URL;
+  if (!baseUrl) throw new Error('REACT_APP_COMPANIES_URL saknas i miljövariabler.');
+  if (!token) throw new Error('REACT_APP_AUTHORIZATION_TOKEN saknas i miljövariabler.');
   const url = expiring
     ? `${baseUrl}/${companyId}/apartments/expiring`
     : `${baseUrl}/${companyId}/apartments`;
