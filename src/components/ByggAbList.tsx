@@ -34,13 +34,14 @@ const ApartmentList: React.FC<ApartmentListProps> = ({
     try {
       // Skicka bara ändringar
       const changed = apartments.filter(a => renovatedState[a.id] !== a.isRenovated);
+      const REACT_APP_WEBHOOK_URL = process.env.REACT_APP_WEBHOOK_URL || '';
+      const REACT_APP_WEBHOOK_SECRET = process.env.REACT_APP_WEBHOOK_SECRET || '';
       for (const apt of changed) {
-        await fetch('https://localhost:7055/webhook/apartment-updated', {
+        await fetch(REACT_APP_WEBHOOK_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Webhook-Secret': 'Wh_2025!xA7pQ9zLm@T4rVbC1yKdE8uN'
-                                
+            'X-Webhook-Secret': REACT_APP_WEBHOOK_SECRET
           },
           body: JSON.stringify({ apartmentId: apt.id, isRenovated: renovatedState[apt.id] })
         });
