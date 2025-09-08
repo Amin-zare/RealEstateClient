@@ -1,46 +1,68 @@
-# Getting Started with Create React App
+# Real Estate Client
+![Demo](./Demo.gif)
+## Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Prerequisites
+- Node.js (v18 eller senare rekommenderas)
+- npm (medföljer Node.js)
 
-## Available Scripts
+### Installation
+1. Klona projektet eller ladda ner källkoden.
+2. Öppna en terminal i projektmappen.
+3. Installera beroenden:
+	```bash
+	npm install
+	```
 
-In the project directory, you can run:
+### Konfiguration
+1. Skapa eller redigera `.env`-filen i projektroten:
+	```env
+	REACT_APP_AUTHORIZATION_TOKEN=YOUR_TOKEN_HERE
+	REACT_APP_COMPANIES_URL=https://localhost:7068/companies
+	```
+  > **Viktigt:** Lägg aldrig till din `.env`-fil i versionshantering (git). Använd CI/CD-miljövariabler för produktion och håll dina tokens säkra.
+  > Byt ut `REACT_APP_AUTHORIZATION_TOKEN` mot produktionsvärdet vid deploy.
 
-### `npm start`
+2. Se till att backend-API är igång och tillgängligt på de angivna URL:erna.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Starta applikationen
+Kör följande kommando i terminalen:
+```bash
+npm start
+```
+Applikationen startar på `http://localhost:3000`.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Projektstruktur
+- `src/components/` – Återanvändbara React-komponenter
+- `src/services/` – API-anrop och logik
+- `src/types/` – Typdefinitioner
+- `src/constants/` – Statiska texter och konstanter
 
-### `npm test`
+## Felsökning
+- Kontrollera att backend-API är igång och tillåter CORS.
+- Kontrollera att URL:erna i `.env` är korrekta.
+- Se terminalen för eventuella felmeddelanden.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### CORS och proxy vid lokal utveckling
 
-### `npm run build`
+Om API:et inte tillåter CORS för localhost kan du:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Aktivera CORS på backend**
+	- Lägg till localhost som tillåten origin i backendens CORS-middleware .
+2. **Använd frontend-proxy**
+	- För Create React App: lägg till `"proxy": "http://localhost:7055"` i `package.json`.
+> **Obs!** Proxy-inställningar är endast för lokal utveckling. Ta bort eller justera dem för produktion.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Exempel: Azure Static Web Apps workflow (INTE aktivt i detta repo)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> **Obs!** Detta är **endast ett exempel** på hur en GitHub Actions-workflow för **Azure Static Web Apps** kan se ut.  
+> Den är inte kopplad till detta projekt och kommer **inte** att bygga eller deploya någonting här.
 
-### `npm run eject`
+Syftet är att visa struktur och fält i YAML-filen så att du kan använda den som referens i andra projekt.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Du kan läsa mer i [Create React App-dokumentationen](https://create-react-app.dev/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+För att lära dig React, besök [React-dokumentationen](https://react.dev/).
