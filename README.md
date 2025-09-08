@@ -19,6 +19,8 @@
 	```env
 	REACT_APP_AUTHORIZATION_TOKEN=YOUR_TOKEN_HERE
 	REACT_APP_COMPANIES_URL=https://localhost:7055/companies
+    REACT_APP_WEBHOOK_SECRET=YOUR_SECRET_HERE
+    REACT_APP_WEBHOOK_URL=https://localhost:7055/webhook/apartment-updated
 	```
   > **Viktigt:** Lägg aldrig till din `.env`-fil i versionshantering (git). Använd CI/CD-miljövariabler för produktion och håll dina tokens säkra.
   > Byt ut `REACT_APP_AUTHORIZATION_TOKEN` mot produktionsvärdet vid deploy.
