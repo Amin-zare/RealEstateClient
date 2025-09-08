@@ -18,7 +18,7 @@
 1. Skapa eller redigera `.env`-filen i projektroten:
 	```env
 	REACT_APP_AUTHORIZATION_TOKEN=YOUR_TOKEN_HERE
-	REACT_APP_COMPANIES_URL=https://localhost:7068/companies
+	REACT_APP_COMPANIES_URL=https://localhost:7055/companies
 	```
   > **Viktigt:** Lägg aldrig till din `.env`-fil i versionshantering (git). Använd CI/CD-miljövariabler för produktion och håll dina tokens säkra.
   > Byt ut `REACT_APP_AUTHORIZATION_TOKEN` mot produktionsvärdet vid deploy.
@@ -47,10 +47,9 @@ Applikationen startar på `http://localhost:3000`.
 
 Om API:et inte tillåter CORS för localhost kan du:
 
-1. **Aktivera CORS på backend**
+**Aktivera CORS på backend**
 	- Lägg till localhost som tillåten origin i backendens CORS-middleware .
-2. **Använd frontend-proxy**
-	- För Create React App: lägg till `"proxy": "http://localhost:7055"` i `package.json`.
+
 > **Obs!** Proxy-inställningar är endast för lokal utveckling. Ta bort eller justera dem för produktion.
 
 ## Exempel: Azure Static Web Apps workflow (INTE aktivt i detta repo)
