@@ -2,5 +2,12 @@
   "welcomeTitle": "Välkommen till portalen!",
   "chooseCompany": "Välj företag för att logga in",
   "loading": "Laddar...",
-  "genericError": "Ett fel uppstod, försök igen senare"
+  "genericError": "Ett fel uppstod, försök igen senare",
+  "apartmentsFor": "Lägenheter för",
+  "showAllApartments": "Visa alla lägenheter",
+  "showExpiringContracts": "Visa utgående kontrakt",
+  "noApartments": "Inga lägenheter finns för detta bolag.",
+  "leaseEnd": "Slutdatum:",
+  "renovated": " (Renoverad)",
+  "expiringLabel": "Kontraktet löper ut inom 3 månader!"
 }
