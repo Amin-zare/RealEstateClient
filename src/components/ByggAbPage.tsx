@@ -7,7 +7,7 @@ import CompanyList from './CompanyList';
 import ByggAbList from './ByggAbList';
 import { fetchCompanies } from '../services/companyService';
 import { fetchApartments } from '../services/apartmentService';
-import Loading from '../services/Loading';
+import Loading from './Loading';
 
 
 const ByggAbPage: React.FC = () => {
@@ -18,7 +18,6 @@ const ByggAbPage: React.FC = () => {
     const [apartments, setApartments] = useState<Apartment[]>([]);
     const [loadingApartments, setLoadingApartments] = useState(false);
     const [apartmentError, setApartmentError] = useState<string | null>(null);
-    const [showExpiring, setShowExpiring] = useState(false);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -55,7 +54,7 @@ const ByggAbPage: React.FC = () => {
             setLoadingApartments(true);
             setApartmentError(null);
             try {
-                const data = await fetchApartments(selectedCompany, showExpiring);
+                const data = await fetchApartments(selectedCompany, false);
                 setApartments(data);
             } catch (err: unknown) {
                 let message = text.genericError;
@@ -71,7 +70,7 @@ const ByggAbPage: React.FC = () => {
             }
         };
         fetchApts();
-    }, [selectedCompany, showExpiring]);
+    }, [selectedCompany]);
 
     return (
         <div className="App home-center">
@@ -99,7 +98,6 @@ const ByggAbPage: React.FC = () => {
                             apartments={apartments}
                             companies={companies}
                             selectedCompany={selectedCompany}
-                            showExpiring={showExpiring}
                         />
                     )}
                 </div>

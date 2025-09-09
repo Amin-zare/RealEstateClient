@@ -5,7 +5,7 @@ import { fetchCompanies } from '../services/companyService';
 import { fetchApartments } from '../services/apartmentService';
 import text from '../constants/text.json';
 import CompanyList from '../components/CompanyList';
-import Loading from '../services/Loading';
+import Loading from './Loading';
 import ApartmentList from '../components/ApartmentList';
 import { Link } from 'react-router-dom';
 

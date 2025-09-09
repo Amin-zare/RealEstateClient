@@ -1,12 +1,16 @@
 import { Company } from '../types/Company';
 
 export async function fetchCompanies(): Promise<Company[]> {
-  const url = process.env.REACT_APP_COMPANIES_URL;
-  const token = process.env.REACT_APP_AUTHORIZATION_TOKEN;
-  if (!url) throw new Error('REACT_APP_COMPANIES_URL saknas i miljövariabler.');
-  if (!token) throw new Error('REACT_APP_AUTHORIZATION_TOKEN saknas i miljövariabler.');
   try {
-    const res = await fetch(url, {
+    const token = process.env.REACT_APP_AUTHORIZATION_TOKEN;
+    if (!token || token.trim() === '') {
+      throw new Error('Authorization token is missing or empty.');
+    }
+    const baseUrl = process.env.REACT_APP_COMPANIES_URL;
+    if (!baseUrl || baseUrl.trim() === '') {
+      throw new Error('REACT_APP_COMPANIES_URL is missing or empty.');
+    }
+    const res = await fetch(baseUrl, {
       headers: {
         "Authorization": `Bearer ${token}`,
         Accept: 'application/json',

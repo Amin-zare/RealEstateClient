@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { saveRenovatedApartments } from '../services/saveRenovatedApartments';
 import { Apartment } from '../types/Apartment';
 import { Company } from '../types/Company';
 import text from '../constants/text.json';
@@ -7,7 +8,6 @@ interface ApartmentListProps {
   apartments: Apartment[];
   companies: Company[];
   selectedCompany: number;
-  showExpiring: boolean;
 }
 
 
@@ -15,7 +15,6 @@ const ApartmentList: React.FC<ApartmentListProps> = ({
   apartments,
   companies,
   selectedCompany,
-  showExpiring,
 }) => {
   const [renovatedState, setRenovatedState] = useState<{[id: number]: boolean}>(
     () => Object.fromEntries(apartments.map(a => [a.id, a.isRenovated]))
@@ -32,21 +31,8 @@ const ApartmentList: React.FC<ApartmentListProps> = ({
     setSaving(true);
     setSaveMsg(null);
     try {
-      // Skicka bara ändringar
-      const changed = apartments.filter(a => renovatedState[a.id] !== a.isRenovated);
-      const REACT_APP_WEBHOOK_URL = process.env.REACT_APP_WEBHOOK_URL || '';
-      const REACT_APP_WEBHOOK_SECRET = process.env.REACT_APP_WEBHOOK_SECRET || '';
-      for (const apt of changed) {
-        await fetch(REACT_APP_WEBHOOK_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Webhook-Secret': REACT_APP_WEBHOOK_SECRET
-          },
-          body: JSON.stringify({ apartmentId: apt.id, isRenovated: renovatedState[apt.id] })
-        });
-      }
-      setSaveMsg(changed.length > 0 ? 'Ändringar sparade!' : 'Inga ändringar att spara.');
+      const changedCount = await saveRenovatedApartments(apartments, renovatedState);
+      setSaveMsg((typeof changedCount === 'number' && changedCount > 0) ? 'Ändringar sparade!' : 'Inga ändringar att spara.');
     } catch (err) {
       setSaveMsg('Fel vid sparande!');
     } finally {
@@ -65,10 +51,7 @@ const ApartmentList: React.FC<ApartmentListProps> = ({
           <div className="apartment-card empty">{text.noApartments}</div>
         ) : (
           apartments.map((apt) => (
-            <div
-              key={apt.id}
-              className={`apartment-card${showExpiring ? ' expiring' : ''}`}
-            >
+            <div key={apt.id} className="apartment-card">
               <div className="apartment-address">
                 <input
                   type="checkbox"
@@ -83,9 +66,6 @@ const ApartmentList: React.FC<ApartmentListProps> = ({
                 {text.leaseEnd}{' '}
                 {new Date(apt.leaseEnd).toLocaleDateString()}
               </div>
-              {showExpiring && (
-                <div className="expiring-label">{text.expiringLabel}</div>
-              )}
             </div>
           ))
         )}
@@ -98,7 +78,7 @@ const ApartmentList: React.FC<ApartmentListProps> = ({
         >
           {saving ? 'Sparar...' : 'Spara'}
         </button>
-        {saveMsg && <span>{saveMsg}</span>}
+        {saveMsg && <span className="save-message">{saveMsg}</span>}
       </div>
     </div>
   );
