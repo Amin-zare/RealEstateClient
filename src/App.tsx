@@ -1,104 +1,39 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
-import { Company } from './types/Company';
-import { Apartment } from './types/Apartment';
-import { fetchCompanies } from './services/companyService';
-import { fetchApartments } from './services/apartmentService';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import PortalPage from './components/PortalPage';
+import ByggAbPage from './components/ByggAbPage';
 import text from './constants/text.json';
-import CompanyList from './components/CompanyList';
-import Loading from './services/Loading';
-import ApartmentList from './components/ApartmentList';
 
 function App() {
-  const [companies, setCompanies] = useState<Company[]>([]);
-  const [selectedCompany, setSelectedCompany] = useState<number | null>(null);
-  const [apartments, setApartments] = useState<Apartment[]>([]);
-  const [showExpiring, setShowExpiring] = useState(false);
-  const [loadingCompanies, setLoadingCompanies] = useState(true);
-  const [loadingApts, setLoadingApts] = useState(false);
-  const [companyError, setCompanyError] = useState<string | null>(null);
-  const [aptError, setAptError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const run = async () => {
-      try {
-        setLoadingCompanies(true);
-        setCompanyError(null);
-        const data = await fetchCompanies();
-        setCompanies(data);
-      } catch (err: any) {
-        if (err?.name === 'AbortError') return;
-        console.error('Could not fetch companies:', err);
-        setCompanyError(text.genericError);
-      } finally {
-        setLoadingCompanies(false);
-      }
-    };
-    run();
-    return () => controller.abort();
-  }, []);
-
-  useEffect(() => {
-    if (selectedCompany === null) {
-      setApartments([]);
-      return;
-    }
-
-    const controller = new AbortController();
-    setLoadingApts(true);
-    setAptError(null);
-
-    fetchApartments(selectedCompany, showExpiring, controller.signal)
-      .then((data) => {
-        setApartments(data);
-      })
-      .catch((err) => {
-        if (err?.name === 'AbortError') return;
-        console.error('Could not fetch apartments:', err);
-        setApartments([]);
-        setAptError(text.genericError);
-      })
-      .finally(() => {
-        setLoadingApts(false);
-      });
-
-    return () => {
-      controller.abort();
-    };
-  }, [selectedCompany, showExpiring]);
-
   return (
-    <div className="App">
-      <h1>{text.welcomeTitle}</h1>
-      <h2>{text.chooseCompany}</h2>
-      {loadingCompanies ? (
-        <Loading />
-      ) : companyError ? (
-        <div className="error-message">{companyError}</div>
-      ) : (
-        <CompanyList
-          companies={companies}
-          selectedCompany={selectedCompany}
-          onSelect={setSelectedCompany}
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="App home-center">
+              <h1>{text.choosePortal}</h1>
+              <div className="button-row">
+                <Link to="/portalen" className="portal-btn" aria-label={text.fastighetPortalBtn}>{text.fastighetPortalBtn}</Link>
+                <Link to="/byggab" className="portal-btn" aria-label={text.byggAbBtn}>{text.byggAbBtn}</Link>
+              </div>
+            </div>
+          }
         />
-      )}
-      {selectedCompany !== null && (
-        loadingApts ? (
-          <Loading />
-        ) : aptError ? (
-          <div className="error-message">{aptError}</div>
-        ) : (
-          <ApartmentList
-            apartments={apartments}
-            companies={companies}
-            selectedCompany={selectedCompany}
-            showExpiring={showExpiring}
-            setShowExpiring={setShowExpiring}
-          />
-        )
-      )}
-    </div>
+        <Route
+          path="/portalen"
+          element={
+            <div>
+              <PortalPage />
+            </div>
+          }
+        />
+        <Route
+          path="/byggab"
+          element={<ByggAbPage />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
