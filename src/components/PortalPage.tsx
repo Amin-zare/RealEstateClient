@@ -95,7 +95,7 @@ const PortalPage: React.FC = () => {
           />
         )
       )}
-  <Link to="/" className="portal-btn" role="button">{text.backButton}</Link>
+      <Link to="/" className="portal-btn" role="button">{text.backButton}</Link>
     </div>
 
   );
